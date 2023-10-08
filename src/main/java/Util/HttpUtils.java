@@ -83,31 +83,5 @@ public class HttpUtils {
         return (String) clipboard.getData(DataFlavor.stringFlavor);
     }
 
-    public static String createAuthToken() {
-        String secret = "PLEASE_CHANGE_ME";
-//        String dataToSign = "{'iat': 1516239022, 'exp': 1720420066}";
-        Instant now = Instant.now();
-        Instant expiration = now.plus(365, ChronoUnit.DAYS);
-        long expTimestamp = expiration.getEpochSecond();
-        LOGGER.info("expiration expected: "+expTimestamp);
-        String dataToSign = "{ 'iat': 1516239022,'exp': "+expTimestamp+"}";
 
-        String algorithm = "HmacSHA256";
-        String charset = StandardCharsets.UTF_8.name();
-        String authorizationKey=null;
-        try {
-            Mac hmac = Mac.getInstance(algorithm);
-            SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(charset), algorithm);
-            hmac.init(secretKey);
-
-            byte[] hashBytes = hmac.doFinal(dataToSign.getBytes(charset));
-            authorizationKey = Base64.getEncoder().encodeToString(hashBytes);
-
-            System.out.println("Authorization Key: " + authorizationKey);
-            return authorizationKey;
-        } catch (NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return authorizationKey;
-    }
 }

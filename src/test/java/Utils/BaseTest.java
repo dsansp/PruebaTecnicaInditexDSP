@@ -10,6 +10,7 @@ import exception.CustomErrorException;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +32,6 @@ public class BaseTest {
 
 	private static final String EDGE = "edge";
 	private static final String CHROME = "chrome";
-
 
 
 	public BaseTest() {
@@ -89,9 +89,7 @@ public class BaseTest {
 				e.printStackTrace();
 				LOGGER.error("Error al cerrar el Driver");
 			}
-		}
-
-		else {
+		} else {
 			try {
 				WebDriverFactory.quitSetup();
 
@@ -103,7 +101,6 @@ public class BaseTest {
 
 		}
 	}
-
 
 
 	private PropertiesManager getPropertiesManager() {
@@ -145,6 +142,7 @@ public class BaseTest {
 		LOGGER.info(response.getStatusCode());
 		return response.getStatusCode();
 	}
+
 	public static String getResponseBody(String url) {
 
 		String customUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
@@ -160,7 +158,7 @@ public class BaseTest {
 		String url = "https://staging-api.ethermail.io/user-verified/user-verify-flags";
 		String[] flags = {"sms_validated"};
 		String customUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-		String body = "{ \"address\": \"" + address + "\", \"flags\": "+ toJsonArray(flags) +"}";
+		String body = "{ \"address\": \"" + address + "\", \"flags\": " + toJsonArray(flags) + "}";
 		String authToken = ConfigurationManager.configuration().autToken();
 		String authHeaderName = "X-Access-Token";
 		RestAssured.baseURI = url;
@@ -174,24 +172,34 @@ public class BaseTest {
 		return statusCode;
 
 	}
-	public static int responsePostTransaction(String address) {
-		String url = "https://staging-api.ethermail.io/user-verified/user-verify-flags";
-		String[] flags = {"has_transactions"};
+
+	public static int postRest(String username, String name, String LastName, String email, String password, String phone) {
+
 		String customUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-		String body = "{ \"address\": \"" + address + "\", \"flags\": "+ toJsonArray(flags) +"}";
-		String authToken = ConfigurationManager.configuration().autToken();
-		String authHeaderName = "X-Access-Token";
-		RestAssured.baseURI = url;
-		int statusCode = RestAssured.given()
-				.contentType(ContentType.JSON)
-				.header(authHeaderName, authToken)
+
+		RestAssured.baseURI = "https://petstore.swagger.io/v2/user";
+		RequestSpecification httpRequest = RestAssured.given();
+		String requestBody = "{"
+				+ "\"id\": 0,"
+				+ "\"username\": \"" + username + "\","
+				+ "\"firstName\": \"" + name + "\","
+				+ "\"lastName\": \"" + LastName + "\","
+				+ "\"email\": \"" + email + "\","
+				+ "\"password\": \"" + password + "\","
+				+ "\"phone\": \"" + phone + "\""
+				+ "}";
+		int response = httpRequest
+				.contentType("application/json")
 				.header("User-Agent", customUserAgent)
-				.body(body)
+				.body(requestBody)
 				.post()
 				.getStatusCode();
-		return statusCode;
+		LOGGER.info(response);
+		return  response;
 
 	}
+
+
 	private static String toJsonArray(String[] array) {
 		StringBuilder jsonArray = new StringBuilder();
 		jsonArray.append("[");

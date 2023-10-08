@@ -11,6 +11,7 @@ public interface Configuration extends Config {
     String y270();
     String autToken();
     String browser();
+    String urlPets();
 
 
 
