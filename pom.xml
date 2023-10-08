@@ -1,265 +1,265 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.example</groupId>
-    <artifactId>PruebaTecnicaInditexDSP</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
-        <junit.platform.version>1.8.1</junit.platform.version>
-        <log4j.version>2.17.1</log4j.version>
-        <maven.surfire.plugin.version>3.0.0-M7</maven.surfire.plugin.version>
-        <commons-lang3.version>3.6</commons-lang3.version>
-        <selenium.version>4.11.0</selenium.version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.</groupId>
+  <artifactId>PruebaInditex</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+		<junit.jupiter.version>5.8.2</junit.jupiter.version>
+		<junit.platform.version>1.8.1</junit.platform.version>
+		<log4j.version>2.17.1</log4j.version>
+		<maven.surfire.plugin.version>3.0.0-M7</maven.surfire.plugin.version>
+		<commons-lang3.version>3.6</commons-lang3.version>
+		<selenium.version>4.11.0</selenium.version>
 
 
 
-    </properties>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+	</properties>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.3.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
-            </plugin>
-        </plugins>
-    </reporting>
-
-    <profiles>
-
-
-        <profile>
-            <id>Prod</id>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>Prod</name>
-
-
-                </property>
-
-            </activation>
-
-            <properties>
-                <env>environment</env>
-                <filters>src/test/resources/${env}.properties</filters>
-                <profile.dir>src/test/resources/prod</profile.dir>
-
-            </properties>
-            <build>
-
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>*.properties</include>
-                        </includes>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>test</phase>
-
-                                <configuration>
-
-                                    <tasks>
-                                        <delete                                      file="${project.build.outputDirectory}/datos.properties" />
-                                        <copy file="src/test/resources/prod.properties"                                       tofile="${project.build.outputDirectory}/datos.properties" />
-                                    </tasks>
-                                    <systemPropertyVariables>
-                                        <profileId>${project.activeProfiles[0].id}</profileId>
-
-                                    </systemPropertyVariables>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-
-        </profile>
-
-
-
-    </profiles>
-
-
-    <dependencies>
-
-        <!--  JUNIT 5  -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite-engine</artifactId>
-            <version>${junit.platform.version}</version>
-        </dependency>
-
-
-        <!--  SELENIUM  -->
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <!--  LOGGER  -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-
-        <!-- StringUtils -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-
-        <!--Rest assured	  -->
-        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.5.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.aeonbits.owner/owner -->
-        <dependency>
-            <groupId>org.aeonbits.owner</groupId>
-            <artifactId>owner</artifactId>
-            <version>1.0.12</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-email</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
-        <dependency>
-
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <version>5.0.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-        </dependency>
+	<profiles>
 
 
 
 
-    </dependencies>
+	<profile>
+			<id>stagingLocal</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>stagingLocal</name>
+
+
+				</property>
+
+			</activation>
+
+			<properties>
+				<env>environment</env>
+				<filters>src/test/resources/${env}.properties</filters>
+				<profile.dir>src/test/resources/staginglocal</profile.dir>
+
+			</properties>
+			<build>
+
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.properties</include>
+						</includes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+
+								<configuration>
+
+									<tasks>
+										<delete                                      file="${project.build.outputDirectory}/datos.properties" />
+										<copy file="src/test/resources/staginglocal.properties"                                       tofile="${project.build.outputDirectory}/datos.properties" />
+									</tasks>
+									<systemPropertyVariables>
+										<profileId>${project.activeProfiles[0].id}</profileId>
+
+									</systemPropertyVariables>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+
+	</profiles>
+
+
+  <dependencies>
+
+	<!--  JUNIT 5  -->
+	<dependency>
+	    <groupId>org.junit.platform</groupId>
+	    <artifactId>junit-platform-suite-engine</artifactId>
+	    <version>${junit.platform.version}</version>
+	</dependency>
+
+
+	  <!--  SELENIUM  -->
+	  <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+	  <dependency>
+		  <groupId>org.seleniumhq.selenium</groupId>
+		  <artifactId>selenium-java</artifactId>
+		  <version>${selenium.version}</version>
+	  </dependency>
+
+	<!--  LOGGER  -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-core</artifactId>
+	    <version>${log4j.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-api</artifactId>
+		<version>${log4j.version}</version>
+	</dependency>
+	
+	<!-- StringUtils -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+
+		<!--Rest assured	  -->
+	  <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+	  <dependency>
+		  <groupId>io.rest-assured</groupId>
+		  <artifactId>rest-assured</artifactId>
+		  <version>5.2.0</version>
+		  <scope>test</scope>
+	  </dependency>
+	  <dependency>
+		  <groupId>io.github.bonigarcia</groupId>
+		  <artifactId>webdrivermanager</artifactId>
+		  <version>5.5.2</version>
+		  <scope>compile</scope>
+	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/org.aeonbits.owner/owner -->
+	  <dependency>
+		  <groupId>org.aeonbits.owner</groupId>
+		  <artifactId>owner</artifactId>
+		  <version>1.0.12</version>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>com.sun.mail</groupId>
+		  <artifactId>javax.mail</artifactId>
+		  <version>1.6.0</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-email</artifactId>
+		  <version>1.5</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>javax.mail</groupId>
+		  <artifactId>javax.mail-api</artifactId>
+		  <version>1.6.2</version>
+	  </dependency>
+
+
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>${junit.jupiter.version}</version>
+          <scope>compile</scope>
+      </dependency>
+	  <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+	  <dependency>
+
+		  <groupId>com.aventstack</groupId>
+		  <artifactId>extentreports</artifactId>
+		  <version>5.0.9</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+		  <version>1.18.22</version>
+	  </dependency>
+	  <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+	  <dependency>
+		  <groupId>org.testng</groupId>
+		  <artifactId>testng</artifactId>
+		  <version>7.8.0</version>
+		  <scope>test</scope>
+	  </dependency>
+
+
+
+  </dependencies>
 
 
 
 
+  
+  <build>
+  
 
-    <build>
+	<!-- Test Resources-->
+	<testResources>
+		<testResource>
+			<directory>src/test/resources/</directory>
+			<filtering>true</filtering>
+		</testResource>
+	</testResources>
+  
+  	<plugins>
 
+  		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surfire.plugin.version}</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<test>**/*Test</test>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
 
-        <!-- Test Resources-->
-        <testResources>
-            <testResource>
-                <directory>src/test/resources/</directory>
-                <filtering>true</filtering>
-            </testResource>
-        </testResources>
+						<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+						<properties>
+							<property>
+								<name>useFile</name>
+								<value>true</value>
+							</property>
+							<property>
+								<name>showSuccess</name>
+								<value>true</value>
+							</property>
+							<property>
+								<name>briefOrVerbose</name>
+								<value>true</value>
+							</property>
+							<property>
+								<name>showErrorStackTraces</name>
+								<value>true</value>
+							</property>
+						</properties>
 
-        <plugins>
+				</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.11.0</version>
+			<configuration>
+				<source>17</source>
+				<target>17</target>
+			</configuration>
+		</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin.version}</version>
-                <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
-                    <test>**/*Test</test>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <properties>
-                        <property>
-                            <name>useFile</name>
-                            <value>true</value>
-                        </property>
-                        <property>
-                            <name>showSuccess</name>
-                            <value>true</value>
-                        </property>
-                        <property>
-                            <name>briefOrVerbose</name>
-                            <value>true</value>
-                        </property>
-                        <property>
-                            <name>showErrorStackTraces</name>
-                            <value>true</value>
-                        </property>
-                    </properties>
-
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
-
-
+	</plugins>
+  </build>
+ 
+  
 </project>

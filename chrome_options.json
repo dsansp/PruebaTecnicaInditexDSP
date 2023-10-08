@@ -1,0 +1,16 @@
+{
+  "capabilities": [
+    {
+      "browserName": "chrome",
+      "acceptInsecureCerts": true,
+      "chromeOptions": {
+        "args": [
+          "--no-sandbox",
+          "--disable-dev-shm-usage",
+          "--remote-debugging-address=0.0.0.0",
+          "--remote-debugging-port=9222",
+          "--allow-installs-from-non-web-store"]
+      }
+    }
+  ]
+}
